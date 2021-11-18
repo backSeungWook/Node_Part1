@@ -97,3 +97,35 @@ console.log('the Serve IS PORT')
   ]
 }
 ```
+
+## VScode Node디버깅 설정
+```json
+//.vscode/launch.json
+//구성 추가 버튼 클릭 => Launch via NPM 추가
+{
+  "configurations": [
+    {
+      "name": "Launch via NPM",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "debug"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    }
+
+  ]
+}
+
+
+//package.json scripts에 추가
+"scripts": {
+  ...
+  "debug":"node src/main.js"
+},
+
+```
