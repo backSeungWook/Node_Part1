@@ -2,7 +2,7 @@
 <h1>목차</h1>
 <ul>
 <li><h3>Part1(개발환경 설정)</h3></il>
-<li><h3>Part2(...)</h3></il>
+<li><h3>Part2(프레임워크 없이 RESTful API)</h3></il>
 </ul>
 
 </br>
@@ -128,4 +128,55 @@ console.log('the Serve IS PORT')
   "debug":"node src/main.js"
 },
 
+```
+
+## polyfill
+기본적으로 지원하지 않는 이전 브라우저에서 최신 기능을 제공하는 데 필요한 코드  
+https://node.green/ 에서 노드 버전별 모듈 지원 여부 확인 가능.
+### core-js
+```
+npm i core-js
+```
+```js
+//선언
+require('core-js')
+
+//EX
+const complicatedArray = [1,[2,3]]
+const fiattendArray = complicatedArray.flat()
+
+console.log(fiattendArray)
+```
+
+## Transpile
+코드를 A언어에서 B언어로 변환하는 작업
+즉, 신규 언어 스펙(ES6+) --> 구형 언어 스펙(ES5 등) 으로 트랜스파일 할 때 사용.
+대표적인 트랜스파일러 : Babel,tsc,ESbuild
+
+<br />
+<br />
+<br />
+  
+# Part2(프레임워크 없이 RESTful API)
+프로젝트 개요 : 블로그 포스팅 서비스
+ - 로컬 파일을 DB로 사용(JSON)
+ - RESTful API 사용
+
+
+## nodemon
+자동으로 서버 재구동 해주는 모듈
+```
+npm i -D nodemon
+```
+```js
+//package.json
+"scripts": {
+    "server":"nodemon src/main.js"
+  },
+```
+
+## HTTPie
+설치 방법은 파이썬 설치 후 PIP로 설치  https://httpie.io/ 사이트 참조
+```
+pip install httpie
 ```
