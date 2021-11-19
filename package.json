@@ -9,6 +9,9 @@
     "server":"nodemon src/main.js"
     
   },
+  "engines":{
+    "node": "16.6.2"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

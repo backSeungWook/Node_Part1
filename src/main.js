@@ -1,26 +1,61 @@
 // @ts-check
 // Part2
+
 const http = require('http')
+const { routs } = require('./api')
 
 const server = http.createServer((req, res) => {
-  // req.url : GET url 확인
-  if (req.url === '/posts' && req.method === 'GET') {
-    res.statusCode = 200
-    res.end('List of posts')
-  } else if (req.url && /^\/posts\/[a-zA-Z0-9-_]+$/.test(req.url)) {
-    // req.url === '/posts/:id'
-    res.statusCode = 200
-    res.end('content of the post')
-  } else if (req.url === '/posts' && req.method === 'POST') {
-    res.statusCode = 200
-    res.end('Createing post')
-  } else {
-    res.statusCode = 404
-    res.end('Not Found')
+  async function main() {
+    const route = routs.find(
+      (_route) =>
+        req.url &&
+        req.method &&
+        _route.url.test(req.url) &&
+        _route.method === req.method
+    )
+
+    if (!req.url || !route) {
+      res.statusCode = 404
+      res.end('Not Found?')
+      return
+    }
+
+    const regexResult = route.url.exec(req.url)
+
+    if (!regexResult) {
+      res.statusCode = 404
+      res.end('Not Found?')
+      return
+    }
+
+    /** @type {Object.<string,*> | undefined} */
+    const reqbody =
+      (req.headers['content-type'] === 'application/json' &&
+        (await new Promise((resolve, reject) => {
+          req.setEncoding('utf-8')
+          req.on('data', (data) => {
+            try {
+              resolve(JSON.parse(data))
+            } catch {
+              reject(new Error('Ill-formed JSON'))
+            }
+          })
+        }))) ||
+      undefined
+
+    const result = await route.callback(regexResult, reqbody)
+    res.statusCode = result.statusCode
+    if (typeof result.body === 'string') {
+      res.end(result.body)
+    } else {
+      res.setHeader('Content-Type', 'application/json; encoding=utf-8')
+      res.end(JSON.stringify(result.body))
+    }
   }
+  main()
 })
 
 const PORT = 4000
 server.listen(PORT, () => {
-  console.log(`the Serve IS PORT : ${PORT}`)
+  // console.log(`the Serve IS PORT : ${PORT}`)
 })

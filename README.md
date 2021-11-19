@@ -180,3 +180,34 @@ npm i -D nodemon
 ```
 pip install httpie
 ```
+
+## JSDoc를 사용 하여 type 정의
+Javadoc과 유사한 JavaScript용 API 문서 생성기이다. 문서 주석을 코드와 함께 소스 코드에 직접 추가할 수 있다.  
+JSDoc은 소스 코드를 스캔하고 HTML 문서를 생성한다.
+
+JSDoc의 주목적은 JavaScript 앱 또는 라이브러리 API를 문서화하는 것이다. 
+모듈, 네임스페이스, 클래스, 메서드, 파라미터 등과 같은 항목을 문서화할 것으로 가정한다.
+
+일반적으로 JSDoc 주석은 코드가 문서화되기 직전에 배치되어야 한다.  
+각 주석은 /** 시퀀스로 시작해야 JSDoc 파서가 인식할 수 있다. /*, /*** 으로 시작되는 설명은 무시된다.  
+
+정의한 타입이 아닌 경우 에러 처리가 된다. https://jsdoc.app/ 참조  
+사용법은 주석 안에 type정의
+```js
+/**
+ * @typedef Post
+ * @property {string} id
+ * @property {string} title
+ * @property {string} content
+ */
+
+//정의한 type 사용법.
+/** @type {Post[]} */
+const posts = [
+  {
+    id: 'my_first_post',
+    title: 'my first post',
+    content: 'Hello',
+  },
+]
+```
