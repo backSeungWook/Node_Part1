@@ -1,4 +1,4 @@
-
+https://nodejs.org/ko/docs/  API
 <h1>목차</h1>
 <ul>
 <li><h3>Part1(개발환경 설정)</h3></il>
@@ -211,3 +211,78 @@ const posts = [
   },
 ]
 ```
+
+## https://google.github.io/styleguide/jsguide.html
+
+
+## Node 스탠다드 라이브러리
+- os : 운영체제에 관련된 정보
+  ```js
+  const os = require('os')
+  console.log(os.arch(),os.platform(),os.cpus())// 등등
+  ```
+- fs: 파일 시스템 관련 라이브러리
+- child_process : 다른 프로세스 실행( Ex: dir / ll -al ...)
+  ```js
+  //ex
+  //https://nodejs.org/docs/latest-v16.x/api/child_process.html
+  const { spawn } = require('child_process');
+  const ls = spawn('ls', ['-lh', '/usr']);
+
+  ls.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  ls.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  ls.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+  ```
+- dns : 특정 도메인에 대한 정보
+- path : 경로에 대한 라이브러리
+  ```js
+  const path = require('path')
+  const filePath = path.resolve(__dirname,'./test.txt')//절대경로
+  ```
+- http / http2 / https: http / http2  /http3 프로토콜 에 대한 정보
+- net : TCP 프로토콜에 대한 정보
+
+## Stream
+스트림 가능한 소스로 부터  데이터를 작은 청크로 쪼개 처리 할 수 있게 한다.  
+큰 데이터 처리, 비동기적으로만 얻을 수 있는 데이터를 처리 할 때 유용
+
+### `Readable`
+스트림으로부터 읽어 들인다.
+- fs.createReadStream
+  ```js
+  //highWaterMark : 한번에 읽어 올 수 있는 버퍼의 크기
+  const rs = fs.createReadStream('local/big-file', {
+    encoding: 'utf-8',// encoding
+    highWaterMark: 65536 * 2, // 기본값: 65536
+  })
+  ```
+- process.stdin
+- 클라이언트 입장의 HTTP 응답
+
+### `Writable`
+스트림 출력
+- fs.createWriteStream
+- process.stdout
+- 클라이언트 입장의 HTTP 요청
+- 서버 입장의 HTTP 응답
+
+### `Duples`
+스트림에 입력을 받을 수 있고 출력도 할 수 있다.
+- TCP sockets
+- zlib streams(압축)
+- crypto streams(암호화)
+
+### `Transform`
+입력받은 스트림을 변환해 새로운 스트림으로 반환
+- zlib streams(압축)
+- crypto streams(암호화)
+
+## 
